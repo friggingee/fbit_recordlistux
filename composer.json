@@ -1,0 +1,13 @@
+{
+    "name": "fbit/fbit-recordlist_ux",
+    "type": "typo3-cms-extension",
+
+    "require": {
+        "typo3/cms": "^8"
+    },
+    "autoload": {
+        "psr-4": {
+            "FBIT\\RecordlistUx\\": "Classes"
+        }
+    }
+}
