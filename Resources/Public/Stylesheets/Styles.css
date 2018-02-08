@@ -1,0 +1,94 @@
+.recordlist-tabs {
+    position: fixed;
+    top: 65px;
+    z-index: 20;
+    width: 100%;
+    margin-left: -24px;
+    padding: 0 42px 0 24px;
+}
+
+.recordlist-tabs .panel-heading {
+    float: left;
+    background: aliceblue;
+    border-right: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
+    height: 39px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.recordlist-tabs .panel-heading:first-of-type {
+    border-left: 1px solid lightgrey;
+}
+
+.recordlist-tabs .panel-heading:hover {
+    white-space: normal;
+    text-overflow: inherit;
+    height: auto;
+    border-left: 1px solid lightgrey;
+}
+
+.recordlisttab-target {
+    top: -120px;
+    position: relative;
+    display: block;
+}
+
+.module-body.recordlisttabs-active h1 {
+    clear: both;
+    margin-top: 35px;
+}
+
+.fbitrecordlistux-tablerecords {
+    position: fixed;
+    right: 0;
+    top: 65px;
+    width: 15%;
+    height: 100%;
+    background: #eee;
+    border-left: 1px solid #c3c3c3;
+}
+
+.fbitrecordlistux-tablerecords .header {
+    padding: 5px 8px;
+    border-bottom: 1px solid #c3c3c3;
+}
+
+.fbitrecordlistux-tablerecords .list {
+    overflow: hidden;
+    clear: both;
+    height: calc(100% - 41px - 39px);
+}
+.fbitrecordlistux-tablerecords .list table {
+    width: 100%;
+    overflow: hidden;
+    height: 100%;
+    margin-bottom: 39px;
+}
+.fbitrecordlistux-tablerecords .list table thead {
+    width: 100%;
+    table-layout: fixed;
+    display: block;
+}
+.fbitrecordlistux-tablerecords .list table thead tr {
+    width: 100%;
+    height: 31px;
+    display: block;
+}
+.fbitrecordlistux-tablerecords .list table th:nth-child(1) {
+    width: 25%;
+    display: block;
+    float: left;
+}
+.fbitrecordlistux-tablerecords .list table th:nth-child(2) {
+    width: 75%;
+    display: block;
+    float: left;
+}
+.fbitrecordlistux-tablerecords .list table tbody {
+    overflow-y: scroll;
+    display: block;
+    width: 100%;
+    height: calc(100% - 30px);
+}
