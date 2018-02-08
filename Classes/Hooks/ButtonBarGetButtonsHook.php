@@ -126,6 +126,10 @@ class ButtonBarGetButtonsHook
             ->setTitle($prevRecordButtonTitle)
             ->setIcon($prevRecordButtonIcon);
 
+        if (empty($this->previousRecord)) {
+            $prevRecordButton->setClasses('disabled');
+        }
+
         $buttons[ButtonBar::BUTTON_POSITION_RIGHT][120][] = $prevRecordButton;
 
         $nextRecordButtonUrl = '#';
@@ -156,6 +160,10 @@ class ButtonBarGetButtonsHook
             ])
             ->setTitle($nextRecordButtonTitle)
             ->setIcon($nextRecordButtonIcon);
+
+        if (empty($this->nextRecord)) {
+            $nextRecordButton->setClasses('disabled');
+        }
 
         $buttons[ButtonBar::BUTTON_POSITION_RIGHT][120][] = $nextRecordButton;
     }
