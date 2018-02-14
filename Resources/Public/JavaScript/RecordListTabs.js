@@ -25,21 +25,30 @@ define(['jquery'], function ($) {
     var RecordListTabs = {
         init: function() {
             $('.recordlist .panel-heading').each(function(index, item) {
-                $(item).before($('<a>', {'id': $(item).find('a[data-target]').data('target').substring(1, $(item).find('a[data-target]').data('target').length), 'style': 'top:-120px;position:relative;display:block;'}));
+                $(item).before(
+                    $(
+                        '<a>',
+                        {
+                            'class': 'recordlisttab-target',
+                            'id': $(item).find('a[data-target]').data('target').substring(1, $(item).find('a[data-target]').data('target').length)
+                        }
+                    )
+                );
             });
             var $tabs = [];
             $('.recordlist .panel-heading').each(function(index, item) {
                 $tabs.push($(item).clone());
             });
-            $('.module-body h1').attr('style', 'clear:both;margin-top:35px;').before($('<div>', {class: 'recordlist-tabs', style: 'position:fixed;top:65px;z-index:20;width:100%;margin-left:-24px;padding:0 42px 0 24px;'}));
+            $('.module-body').addClass('recordlisttabs-active');
+            $('.module-body h1').before($('<div>', {class: 'recordlist-tabs'}));
             $('.recordlist-tabs').append($tabs);
             $('.recordlist-tabs .panel-heading').each(function(index, item) {
                 $(item).find('a:first').attr('href', $(item).find('a[data-target]').data('target'));
+                $(item).find('[data-identifier=actions-view-table-expand]').parent().remove();
                 $(item).attr('title', $(item).find('a:first').text());
             });
             var recordTypeCount = $('.recordlist .panel-heading').length;
-            $('.recordlist-tabs .panel-heading').attr('style', 'float:left;background:aliceblue;border-right:1px solid lightgrey;border-bottom:1px solid lightgrey;width:calc(100% / ' + recordTypeCount + ');height:40px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;').find('.t3js-toggle-recordlist').remove();
-            $('.recordlist-tabs .panel-heading:first').attr('style', $('.recordlist-tabs .panel-heading:first').attr('style') + 'border-left:1px solid lightgrey;');
+            $('.recordlist-tabs .panel-heading').attr('style', 'width: calc(100% / ' + recordTypeCount + ');').find('.t3js-toggle-recordlist').remove();
         }
     };
 

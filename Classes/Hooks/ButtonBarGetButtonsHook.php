@@ -59,7 +59,10 @@ class ButtonBarGetButtonsHook
 
             $this->determinePrevAndNextRecord();
             $this->generatePrevAndNextRecordButtons($buttonBar, $buttons);
-            // $this->generateRecordListButton($buttonBar, $buttons);
+            if ($this->tablename !== 'pages') {
+                $this->generateCopyRecordButton($buttonBar, $buttons);
+            }
+            $this->generateRecordListButton($buttonBar, $buttons);
         }
     }
 
@@ -124,7 +127,8 @@ class ButtonBarGetButtonsHook
                 'title' => $prevRecordButtonTitle
             ])
             ->setTitle($prevRecordButtonTitle)
-            ->setIcon($prevRecordButtonIcon);
+            ->setIcon($prevRecordButtonIcon)
+            ->setClasses('fbitrecordlistux-record-prev');
 
         if (empty($this->previousRecord)) {
             $prevRecordButton->setClasses('disabled');
@@ -159,7 +163,8 @@ class ButtonBarGetButtonsHook
                 'title' => $nextRecordButtonTitle
             ])
             ->setTitle($nextRecordButtonTitle)
-            ->setIcon($nextRecordButtonIcon);
+            ->setIcon($nextRecordButtonIcon)
+            ->setClasses('fbitrecordlistux-record-next');
 
         if (empty($this->nextRecord)) {
             $nextRecordButton->setClasses('disabled');
@@ -192,5 +197,26 @@ class ButtonBarGetButtonsHook
             ->setClasses('fbitrecordlistux-showtablerecords');
 
         $buttons[ButtonBar::BUTTON_POSITION_RIGHT][121][] = $recordListButton;
+    }
+
+    protected function generateCopyRecordButton(ButtonBar $buttonBar, &$buttons) {
+        $recordCopyButtonTitle = 'Create copy';
+        $recordCopyButtonIcon = $this->iconFactory->getIcon(
+            'actions-edit-copy',
+            Icon::SIZE_SMALL
+        );
+
+        $recordCopyButton = $buttonBar->makeLinkButton()
+            ->setHref('#')
+            ->setDataAttributes([
+                'toggle' => 'tooltip',
+                'placement' => 'bottom',
+                'title' => $recordCopyButtonTitle
+            ])
+            ->setTitle($recordCopyButtonTitle)
+            ->setIcon($recordCopyButtonIcon)
+            ->setClasses('fbitrecordlistux-copyrecord');
+
+        $buttons[ButtonBar::BUTTON_POSITION_LEFT][120][] = $recordCopyButton;
     }
 }
