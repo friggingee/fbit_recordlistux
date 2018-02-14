@@ -48,6 +48,7 @@
     height: 100%;
     background: #eee;
     border-left: 1px solid #c3c3c3;
+    z-index: 2000;
 }
 
 .fbitrecordlistux-tablerecords .header {
@@ -90,5 +91,5 @@
     overflow-y: scroll;
     display: block;
     width: 100%;
-    height: calc(100% - 30px);
+    height: calc(100% - 75px);
 }

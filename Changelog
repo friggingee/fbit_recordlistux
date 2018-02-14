@@ -1,3 +1,4 @@
+2018-02-14 Release 1.2.0: Added record list table button, added copy record button in EditDocumentController
 2018-02-08 Release 1.1.1: Added disabled class to prev/next record buttons in EditDocumentController
 2018-02-08 Release 1.1.0: Added prev/next record buttons to EditDocumentController
 2018-01-31 Release 1.0.0: Added anchor links for tables in web_list module
