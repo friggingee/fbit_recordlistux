@@ -41,7 +41,7 @@ define([
         enableDataLossPreventionOnPrevNextButtons: function () {
             $('a[class*=fbitrecordlistux-record]').on('click', function (e) {
                 e.preventDefault();
-                EditDocumentRecordList.preventExitIfNotSaved(e.target.href);
+                EditDocumentRecordList.preventExitIfNotSaved(e.currentTarget.href);
             });
         },
         enableCopyRecordButton: function () {
