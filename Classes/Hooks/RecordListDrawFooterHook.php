@@ -28,6 +28,10 @@ class RecordListDrawFooterHook
             \TYPO3\CMS\Core\Page\PageRenderer::class
         );
         $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/FbitRecordlistux/RecordListTabs');
+        $this->pageRenderer->addCssFile(
+            'EXT:fbit_recordlistux/Resources/Public/Stylesheets/Styles.css',
+            'stylesheet', 'all', '', true, true, '', false, ''
+        );
 
         return '';
     }
