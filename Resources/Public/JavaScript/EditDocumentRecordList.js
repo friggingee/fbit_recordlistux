@@ -53,7 +53,7 @@ define([
                 var language = $langSelect.length > 0 ? $langSelect.val() : 0;
 
                 var url = TYPO3.settings.ajaxUrls['contextmenu_clipboard'];
-                url += '&CB[el][' + EditDocumentRecordList.tablename + '%7C' + uid + ']=1' + '&CB[setCopyMode]=1';
+                url += '&CB[el][' + EditDocumentRecordList.tablename + '%7C' + EditDocumentRecordList.uid + ']=1' + '&CB[setCopyMode]=1';
                 $.ajax({
                     url: url,
                     success: function (data, status, xhr) {
