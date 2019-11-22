@@ -10,6 +10,7 @@ use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Database\Query\Restriction\QueryRestrictionInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Persistence\Generic\Query;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Lang\LanguageService;
 
@@ -35,14 +36,21 @@ class TableRecordsUtility
             $pid = $currentRecord['pid'];
         }
 
-        $records = BackendUtility::getRecordsByField(
-            $tablename,
-            'pid',
-            $pid,
-            BackendUtility::deleteClause($tablename),
-            '',
-            ($GLOBALS['TCA'][$tablename]['ctrl']['sortField'] ? $GLOBALS['TCA'][$tablename]['ctrl']['sortField'] . ' ASC' : '')
-        );
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($tablename);
+        $queryBuilder->select('*')
+            ->from($tablename)
+            ->where(
+                $queryBuilder->expr()->andX(
+                    $queryBuilder->expr()->eq('pid', $pid),
+                    $queryBuilder->expr()->eq('sys_language_uid', 0)
+                )
+            );
+
+        if ($GLOBALS['TCA'][$tablename]['ctrl']['sortField']) {
+            $queryBuilder->orderBy($GLOBALS['TCA'][$tablename]['ctrl']['sortField'], Query::ORDER_ASCENDING);
+        }
+
+        $records = $queryBuilder->execute()->fetchAll();
 
         foreach ($records as $index => $record) {
             $records[$index]['editlink'] = BackendUtility::getModuleUrl(

@@ -1,10 +1,9 @@
 .recordlist-tabs {
-    position: fixed;
-    top: 65px;
-    z-index: 20;
     width: 100%;
     margin-left: -24px;
     padding: 0 42px 0 24px;
+    position: absolute;
+    top: 65px;
 }
 
 .recordlist-tabs .panel-heading {
@@ -30,12 +29,12 @@
 }
 
 .recordlisttab-target {
-    top: -120px;
+    top: -65px;
     position: relative;
     display: block;
 }
 
-.module-body.recordlisttabs-active h1 {
+.recordlisttabs-active + .module-body h1 {
     clear: both;
     margin-top: 35px;
 }

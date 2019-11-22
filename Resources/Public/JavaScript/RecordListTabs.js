@@ -39,8 +39,8 @@ define(['jquery'], function ($) {
             $('.recordlist .panel-heading').each(function(index, item) {
                 $tabs.push($(item).clone());
             });
-            $('.module-body').addClass('recordlisttabs-active');
-            $('.module-body h1').before($('<div>', {class: 'recordlist-tabs'}));
+            $('.module-docheader').addClass('recordlisttabs-active');
+            $('.module-docheader .module-docheader-bar-navigation').before($('<div>', {class: 'recordlist-tabs'}));
             $('.recordlist-tabs').append($tabs);
             $('.recordlist-tabs .panel-heading').each(function(index, item) {
                 $(item).find('a:first').attr('href', $(item).find('a[data-target]').data('target'));

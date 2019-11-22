@@ -1,10 +1,10 @@
 <?php
-namespace FBIT\RecordlistUx\Hooks;
+namespace FBIT\RecordlistUx\Hooks\Recordlist\Controller\RecordListController;
 
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Recordlist\RecordList;
 
-class RecordListDrawFooterHook
+class DrawFooterHook
 {
     /**
      * @var null|RecordList $recordList

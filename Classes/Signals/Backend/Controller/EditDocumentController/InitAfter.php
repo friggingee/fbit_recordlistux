@@ -1,10 +1,10 @@
 <?php
 
-namespace FBIT\RecordlistUx\Signals;
+namespace FBIT\RecordlistUx\Signals\Backend\Controller\EditDocumentController;
 
 use TYPO3\CMS\Backend\Controller\EditDocumentController;
 
-class EditDocumentControllerInitSlot {
+class InitAfter {
     public function adjustEditDocumentController(EditDocumentController $editDocumentController)
     {
         $pageRenderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(

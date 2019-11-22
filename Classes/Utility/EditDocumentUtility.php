@@ -5,7 +5,10 @@ namespace FBIT\RecordlistUx\Utility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\Generic\Query;
 
 class EditDocumentUtility
 {
@@ -16,14 +19,23 @@ class EditDocumentUtility
         $uid = $requestParams['uid'];
 
         $currentRecord = BackendUtility::getRecord($tablename, $uid);
-        $availableRecords = BackendUtility::getRecordsByField(
-            $tablename,
-            'pid',
-            $currentRecord['pid'],
-            '',
-            '',
-            ($GLOBALS['TCA'][$tablename]['ctrl']['sortby'] ? $GLOBALS['TCA'][$tablename]['ctrl']['sortby'] . ' ASC' : '')
-        );
+
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($tablename);
+        $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
+        $queryBuilder->select('*')
+            ->from($tablename)
+            ->where(
+                $queryBuilder->expr()->andX(
+                    $queryBuilder->expr()->eq('pid', $currentRecord['pid']),
+                    $queryBuilder->expr()->eq('sys_language_uid', 0)
+                )
+            );
+
+        if ($GLOBALS['TCA'][$tablename]['ctrl']['sortby']) {
+            $queryBuilder->orderBy($GLOBALS['TCA'][$tablename]['ctrl']['sortby'], Query::ORDER_ASCENDING);
+        }
+
+        $availableRecords = $queryBuilder->execute()->fetchAll();
         $nextRecord = [];
 
         foreach ($availableRecords as $index => $availableRecord) {

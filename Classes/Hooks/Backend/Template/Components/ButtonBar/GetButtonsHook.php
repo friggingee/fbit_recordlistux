@@ -1,15 +1,18 @@
 <?php
 
-namespace FBIT\RecordlistUx\Hooks;
+namespace FBIT\RecordlistUx\Hooks\Backend\Template\Components\ButtonBar;
 
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\FormProtection\FormProtectionFactory;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\Generic\Query;
 
-class ButtonBarGetButtonsHook
+class GetButtonsHook
 {
     /** @var array $editSettings */
     protected $editSettings = array();
@@ -72,14 +75,23 @@ class ButtonBarGetButtonsHook
     protected function determinePrevAndNextRecord()
     {
         $currentRecord = BackendUtility::getRecord($this->tablename, $this->uid);
-        $availableRecords = BackendUtility::getRecordsByField(
-            $this->tablename,
-            'pid',
-            $currentRecord['pid'],
-            '',
-            '',
-            ($GLOBALS['TCA'][$this->tablename]['ctrl']['sortby'] ? $GLOBALS['TCA'][$this->tablename]['ctrl']['sortby'] . ' ASC' : '')
-        );
+
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->tablename);
+        $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
+        $queryBuilder->select('*')
+            ->from($this->tablename)
+            ->where(
+                $queryBuilder->expr()->andX(
+                    $queryBuilder->expr()->eq('pid', $currentRecord['pid']),
+                    $queryBuilder->expr()->eq('sys_language_uid', 0)
+                )
+            );
+
+        if ($GLOBALS['TCA'][$this->tablename]['ctrl']['sortby']) {
+            $queryBuilder->orderBy($GLOBALS['TCA'][$this->tablename]['ctrl']['sortby'], Query::ORDER_ASCENDING);
+        }
+
+        $availableRecords = $queryBuilder->execute()->fetchAll();
 
         foreach ($availableRecords as $index => $availableRecord) {
             if ($availableRecord['uid'] === $this->uid) {
