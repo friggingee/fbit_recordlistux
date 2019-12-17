@@ -25,11 +25,14 @@ class EditDocumentUtility
         $queryBuilder->select('*')
             ->from($tablename)
             ->where(
-                $queryBuilder->expr()->andX(
-                    $queryBuilder->expr()->eq('pid', $currentRecord['pid']),
-                    $queryBuilder->expr()->eq('sys_language_uid', 0)
-                )
+                $queryBuilder->expr()->eq('pid', $currentRecord['pid'])
             );
+
+        if ($GLOBALS['TCA'][$this->tablename]['ctrl']['languageField']) {
+            $queryBuilder->andWhere(
+                $queryBuilder->expr()->eq($GLOBALS['TCA'][$this->tablename]['ctrl']['languageField'], 0)
+            );
+        }
 
         if ($GLOBALS['TCA'][$tablename]['ctrl']['sortby']) {
             $queryBuilder->orderBy($GLOBALS['TCA'][$tablename]['ctrl']['sortby'], Query::ORDER_ASCENDING);

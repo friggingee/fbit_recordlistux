@@ -1,3 +1,4 @@
+2019-12-17 Release 1.3.1: Fix language handling for TYPO3 9
 2019-11-22 Release 1.3.0: Made compatible with TYPO3 9.5.x
 2018-02-14 Release 1.2.0: Added record list table button, added copy record button in EditDocumentController
 2018-02-08 Release 1.1.1: Added disabled class to prev/next record buttons in EditDocumentController
