@@ -81,7 +81,7 @@ class GetButtonsHook
         $queryBuilder->select('*')
             ->from($this->tablename)
             ->where(
-                $queryBuilder->expr()->eq('pid', $currentRecord['pid'])
+                $queryBuilder->expr()->eq('pid', (int)$currentRecord['pid'])
             );
 
         if ($GLOBALS['TCA'][$this->tablename]['ctrl']['languageField']) {
