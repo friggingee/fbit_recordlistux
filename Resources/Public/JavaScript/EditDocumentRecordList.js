@@ -31,12 +31,12 @@ define([
         uid: '',
         pid: '',
         uiBlockTemplate: '   <div id="t3js-ui-block" class="ui-block">' +
-        '       <span class="t3js-icon icon icon-size-large icon-state-default icon-spinner-circle-light icon-spin" data-identifier="spinner-circle-light">' +
-        '           <span class="icon-markup">' +
-        '               <img src="/typo3/sysext/core/Resources/Public/Icons/T3Icons/spinner/spinner-circle-light.svg" width="48" height="48">' +
-        '           </span>' +
-        '       </span>' +
-        '   </div>',
+            '       <span class="t3js-icon icon icon-size-large icon-state-default icon-spinner-circle-light icon-spin" data-identifier="spinner-circle-light">' +
+            '           <span class="icon-markup">' +
+            '               <img src="/typo3/sysext/core/Resources/Public/Icons/T3Icons/spinner/spinner-circle-light.svg" width="48" height="48">' +
+            '           </span>' +
+            '       </span>' +
+            '   </div>',
 
         enableDataLossPreventionOnPrevNextButtons: function () {
             $('a[class*=fbitrecordlistux-record]').on('click', function (e) {
@@ -44,6 +44,38 @@ define([
                 EditDocumentRecordList.preventExitIfNotSaved(e.currentTarget.href);
             });
         },
+
+        preventExitIfNotSaved: function(redirectUrl) {
+            if ($('form[name="editform"] .has-change').length > 0) {
+                var title = TYPO3.lang['label.confirm.close_without_save.title'] || 'Do you want to quit without saving?';
+                var content = TYPO3.lang['label.confirm.close_without_save.content'] || 'You have currently unsaved changes. Are you sure that you want to discard all changes?';
+                var $modal = Modal.confirm(title, content, Severity.warning, [
+                    {
+                        text: TYPO3.lang['buttons.confirm.close_without_save.no'] || 'No, I will continue editing',
+                        active: true,
+                        btnClass: 'btn-default',
+                        name: 'no'
+                    },
+                    {
+                        text: TYPO3.lang['buttons.confirm.close_without_save.yes'] || 'Yes, discard my changes',
+                        btnClass: 'btn-warning',
+                        name: 'yes'
+                    }
+                ]);
+                $modal.on('button.clicked', function(e) {
+                    if (e.target.name === 'no') {
+                        Modal.dismiss();
+                        return false;
+                    } else if (e.target.name === 'yes') {
+                        Modal.dismiss();
+                        window.location = redirectUrl;
+                    }
+                });
+            } else {
+                window.location = redirectUrl;
+            }
+        },
+
         enableCopyRecordButton: function () {
             $('a.fbitrecordlistux-copyrecord').on('click', function (e) {
                 var $colPosSelect = $('[name="data[' + EditDocumentRecordList.tablename + '][' + EditDocumentRecordList.uid + '][colPos]"]');
@@ -101,6 +133,7 @@ define([
                 });
             });
         },
+
         drawRecordTable: function (data, records) {
             $('.fbitrecordlistux-tablerecords .list table').append(
                 '<thead><tr>' +
@@ -209,6 +242,13 @@ define([
                 }
             });
         },
+
+        enableRecordInformationDisplay: function() {
+            $('.form-control.tceforms-multiselect option').each(function(index, item) {
+                $(item).text($(item).text() + ' [' + $(item).val() + ']');
+            });
+        },
+
         init: function() {
             var tableData = $('[data-table]:last').data();
             this.tablename = tableData.table;
@@ -218,37 +258,7 @@ define([
             this.enableDataLossPreventionOnPrevNextButtons();
             this.enableCopyRecordButton();
             this.enableTableRecordsList();
-        },
-
-        preventExitIfNotSaved: function(redirectUrl) {
-            if ($('form[name="editform"] .has-change').length > 0) {
-                var title = TYPO3.lang['label.confirm.close_without_save.title'] || 'Do you want to quit without saving?';
-                var content = TYPO3.lang['label.confirm.close_without_save.content'] || 'You have currently unsaved changes. Are you sure that you want to discard all changes?';
-                var $modal = Modal.confirm(title, content, Severity.warning, [
-                    {
-                        text: TYPO3.lang['buttons.confirm.close_without_save.no'] || 'No, I will continue editing',
-                        active: true,
-                        btnClass: 'btn-default',
-                        name: 'no'
-                    },
-                    {
-                        text: TYPO3.lang['buttons.confirm.close_without_save.yes'] || 'Yes, discard my changes',
-                        btnClass: 'btn-warning',
-                        name: 'yes'
-                    }
-                ]);
-                $modal.on('button.clicked', function(e) {
-                    if (e.target.name === 'no') {
-                        Modal.dismiss();
-                        return false;
-                    } else if (e.target.name === 'yes') {
-                        Modal.dismiss();
-                        window.location = redirectUrl;
-                    }
-                });
-            } else {
-                window.location = redirectUrl;
-            }
+            this.enableRecordInformationDisplay();
         }
     };
 

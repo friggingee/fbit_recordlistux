@@ -1,3 +1,6 @@
+2020-11-16 Release 1.5.0: Added display of select option values in non-debug mode
+2020-05-29 Release 1.4.0: Added buttons in multiple selection clipboard to allow for selection of all records of an available language
+2020-05-29 Release 1.3.3: Fix display of anchor tabs in TYPO3 9, to ensure list view search box is not obscured
 2020-01-13 Release 1.3.2: Fix handling of records on system root (PID=0)
 2019-12-17 Release 1.3.1: Fix language handling for TYPO3 9
 2019-11-22 Release 1.3.0: Made compatible with TYPO3 9.5.x
